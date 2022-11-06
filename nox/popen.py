@@ -63,6 +63,7 @@ def popen(
     silent: bool = False,
     stdout: int | IO[str] | None = None,
     stderr: int | IO[str] = subprocess.STDOUT,
+    communicate_timeout: float | None = None,
     interrupt_timeout: float | None = 0.3,
     terminate_timeout: float | None = 0.2,
 ) -> tuple[int, str]:
@@ -78,7 +79,7 @@ def popen(
     proc = subprocess.Popen(args, env=env, stdout=stdout, stderr=stderr)
 
     try:
-        out, err = proc.communicate()
+        out, err = proc.communicate(timeout=communicate_timeout)
         sys.stdout.flush()
 
     except KeyboardInterrupt:
